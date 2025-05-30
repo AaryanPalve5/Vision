@@ -1,66 +1,54 @@
+# app.py — FINAL version (ONNX + NMS=True)
 
 from flask import Flask, request, jsonify
-from ultralytics import YOLO
-import cv2
+import onnxruntime as ort
 import numpy as np
+from PIL import Image
+
+# Load ONNX model
+session = ort.InferenceSession("vision2.onnx")  # Use your exported ONNX with NMS=True
+input_name = session.get_inputs()[0].name
+
+# Class names — from your data.yaml
+class_names = {
+    0: "door",
+    1: "window"
+}
 
 # Initialize Flask app
 app = Flask(__name__)
 
-# Load the trained YOLOv8 model
-MODEL_PATH = "vision2.pt"  # Change if needed
-model = YOLO(MODEL_PATH)
-
 @app.route('/detect', methods=['POST'])
 def detect():
-    """
-    POST /detect endpoint.
-    Accepts an image file and returns detections.
-    """
-    if 'file' not in request.files:
-        return jsonify({"error": "No file part in the request"}), 400
-
+    # Load uploaded image
     file = request.files['file']
-    if file.filename == '':
-        return jsonify({"error": "No file selected"}), 400
+    image = Image.open(file).convert("RGB")
+    image = image.resize((640, 640))  # Must match ONNX export imgsz!
+    image_np = np.array(image).transpose(2, 0, 1)  # HWC -> CHW
+    image_np = np.expand_dims(image_np, axis=0).astype(np.float32) / 255.0
 
-    try:
-        # Read image from request
-        file_bytes = np.frombuffer(file.read(), np.uint8)
-        image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+    # Run ONNX inference
+    outputs = session.run(None, {input_name: image_np})
 
-        if image is None:
-            return jsonify({"error": "Invalid image format"}), 400
+    # Remove batch dimension
+    output_array = outputs[0][0]  # [num_detections, 6]
 
-        # Run YOLOv8 detection
-        results = model(image, conf=0.4)
-
-        # Process detections
-        detections = []
-        for box in results[0].boxes:
-            label = results[0].names[int(box.cls[0])]
-            confidence = float(box.conf[0])
-            bbox_xywh = box.xywh[0].tolist()  # x_center, y_center, width, height
-
+    # Parse detections
+    detections = []
+    for det in output_array:
+        x1, y1, x2, y2, conf, class_id = det.tolist()
+        confidence = float(conf)
+        if confidence > 0.4:  # Confidence threshold
+            label = class_names.get(int(class_id), f"class_{int(class_id)}")
+            bbox = [x1, y1, x2, y2]
             detections.append({
                 "label": label,
                 "confidence": round(confidence, 2),
-                "bbox": [round(coord, 2) for coord in bbox_xywh]
+                "bbox": bbox
             })
 
-        # Final JSON response
-        response = {
-            "model": MODEL_PATH,
-            "num_detections": len(detections),
-            "detections": detections
-        }
+    # Return JSON response
+    return jsonify(detections=detections)
 
-        return jsonify(response), 200
-
-    except Exception as e:
-        # Catch any unexpected errors
-        return jsonify({"error": str(e)}), 500
-
-if __name__ == '__main__':
-    print(f"🚀 Starting detection API with model: {MODEL_PATH}")
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)
