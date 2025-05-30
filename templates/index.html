@@ -27,7 +27,7 @@
     <!-- Hero Section -->
     <header class="hero-section text-center text-white">
         <div class="container py-5">
-            <h1 class="display-3 fw-bold mb-3">Blueprint Vision ⚡</h1>
+            <h1 class="display-3 fw-bold mb-3">Blueprint Vision </h1>
             <p class="lead mb-4">Upload an image and see entrances and windows on your blueprint.</p>
             <a href="#upload" class="btn btn-primary btn-lg">Get Started</a>
         </div>
@@ -60,20 +60,8 @@
                     <img src="{{ result_image }}" alt="Detection Result Image" class="img-fluid rounded shadow" />
                 </div>
             {% endif %}
-            
-            {% if detections %}
-                <div class="results bg-glass text-white p-4 rounded shadow mt-5">
-                    <h3 class="mb-3">🎯 Detection Results</h3>
-                    <ul class="list-group text-start">
-                        {% for det in detections %}
-                            <li class="list-group-item list-group-item-dark mb-2 rounded">
-                                <strong>{{ det.label }}</strong> — Confidence: {{ det.confidence }} — BBox: {{ det.bbox }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
 
+            
 
         </div>
     </section>
