@@ -1,0 +1,81 @@
+/* static/css/style.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #0f0f1c;
+    color: #fff;
+}
+
+/* Navbar */
+.navbar-brand span {
+    color: #6e8efb;
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    padding: 8rem 1rem;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    overflow: hidden;
+}
+
+.hero-blobs .blob {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.6;
+    filter: blur(100px);
+    mix-blend-mode: screen;
+    animation: animateBlob 20s infinite ease-in-out;
+}
+
+.blob1 { top: 10%; left: 20%; width: 300px; height: 300px; background: #ff7eb3; animation-delay: 0s; }
+.blob2 { top: 50%; left: 60%; width: 400px; height: 400px; background: #6e8efb; animation-delay: 5s; }
+.blob3 { top: 70%; left: 30%; width: 250px; height: 250px; background: #a777e3; animation-delay: 10s; }
+
+@keyframes animateBlob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(50px, -50px) scale(1.1); }
+}
+
+/* Upload Section */
+.upload-form {
+    max-width: 500px;
+}
+
+/* Glassmorphism for results */
+.bg-glass {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+}
+
+/* Gradient Button */
+.btn-gradient {
+    background: linear-gradient(90deg, #ff758c, #ff7eb3);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(255, 126, 179, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+    background: linear-gradient(90deg, #ff7eb3, #ff758c);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 126, 179, 0.6);
+}
+
+/* Detection Results List */
+.list-group-item-dark {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.list-group-item-dark strong {
+    color: #ff7eb3;
+}
