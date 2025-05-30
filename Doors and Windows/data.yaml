@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 2
+names: ['door', 'window']
+
+roboflow:
+  workspace: asp-2t4fy
+  project: doors-and-windows-cgn3z
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/asp-2t4fy/doors-and-windows-cgn3z/dataset/1
