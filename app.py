@@ -6,7 +6,7 @@ import numpy as np
 from PIL import Image
 
 # Load ONNX model
-session = ort.InferenceSession("vision2_final.onnx")  # Correct ONNX with NMS=True
+session = ort.InferenceSession("vision2.onnx")  # Correct ONNX with NMS=True
 input_name = session.get_inputs()[0].name
 
 # Class names — from your data.yaml
