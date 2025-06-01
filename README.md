@@ -160,8 +160,12 @@ Example shown on deployed API: [https://vision-pylv.onrender.com](https://vision
 ## 🔗 Final Submission Links
 
 ✅ GitHub Repo: [https://github.com/yourusername/blueprint-door-window-detection](https://github.com/yourusername/blueprint-door-window-detection)
+
+
 ✅ Public API URL (Render): [https://vision-pylv.onrender.com](https://vision-pylv.onrender.com)
-✅ Loom Video: [https://loom.com/share/your-video-link](https://loom.com/share/your-video-link)
+
+
+✅ Loom Video: [Click here(https://www.loom.com/share/c939ee5472c6440e8779a87f04fb2381?sid=0317fa78-79aa-4f17-b258-1e2287a8128d)]
 
 ---
 
