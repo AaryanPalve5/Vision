@@ -42,7 +42,7 @@ This project detects `door` and `window` objects in **construction blueprint ima
 ├── requirements.txt            # Python dependencies
 ├── test.py                     # (optional test script)
 ├── vision2.onnx                # Optimized ONNX model
-└── x.py                        # (helper/test script)
+└── x.py                        # (export .pt to onnx)
 ```
 
 ---
